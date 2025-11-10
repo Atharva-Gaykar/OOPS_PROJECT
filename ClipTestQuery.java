@@ -5,6 +5,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+
+// line 75 -> that will be the block sending the main id which has to be mapped
+
 public class ClipTestQuery {
 
     public static String processQuery(InputQuery.Query query_object) {

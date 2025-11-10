@@ -43,26 +43,37 @@ public class InputQuery {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        System.out.println("-----------------------------\nHow do you want to Search! \nChoose type 'Image' or 'Text :");
+        System.out.println("-----------------------------\nHow do you want to Search!");
 
-        String _chooser = sc.nextLine();
+        System.out.println("1. Text\n2. Image\n3. Calorie Calculator");
+        int chooser = sc.nextInt();
+        sc.nextLine(); // consume newline
 
         // compares whether the input type would be text or image
-        if (_chooser.equalsIgnoreCase("Text")) {
-            System.out.println("Search");
-            String query = sc.nextLine();
-            Query t = new TextQuery(query); // takes input of user to TextQuery cls for validation
-            // equivalent to base *b = new Child [cpp base pointer]
-            ClipTestQuery.handleQuery(t);
-        } 
-        else if (_chooser.equalsIgnoreCase("Image")) {
-            System.out.println("Please enter the image path");
-            String query = sc.nextLine();
-            Query t = new ImageQuery(query);
-            ClipImageTestQuery.handleQuery(t);
-        } 
-        else {
-            System.out.println("Invalid Input! try again\n");
+        switch (chooser) {
+            case 1:
+                System.out.println("Search");
+                String query = sc.nextLine();
+                Query t = new TextQuery(query); // takes input of user to TextQuery cls for validation
+                // equivalent to base *b = new Child [cpp base pointer]
+                ClipTestQuery.handleQuery(t);
+                break;
+
+            case 2:
+                System.out.println("Please enter the image path");
+                query = sc.nextLine();
+                t = new ImageQuery(query);
+                ClipImageTestQuery.handleQuery(t);
+                break;
+
+            case 3:
+                // Call Calorie Calculator
+                Main.main(args);
+                break;
+            default:
+                System.out.println("Invalid Input! try again\n");
+
+                break;
         }
         sc.close();
     }
