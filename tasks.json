@@ -1,0 +1,29 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run Dish Lookup (Interactive)",
+            "type": "shell",
+            "command": "mvn", // <-- Command is just 'mvn'
+            "args": [
+                "compile", // <-- Each argument is a separate array item
+                "exec:java",
+                "-Dexec.mainClass=Main",
+                "-Dexec.args=${input:dishId}"
+            ],
+            "group": "build",
+            "problemMatcher": [],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        }
+    ],
+    "inputs": [
+        {
+            "id": "dishId",
+            "type": "promptString", 
+            "description": "Enter the Dish ID you want to look up (e.g., 10, 12):",
+            "default": "10"
+        }
+    ]
+}

@@ -1,82 +1,151 @@
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.io.FileReader;
+import java.lang.reflect.Type;
+import java.util.List;
 import java.util.Scanner;
 
-class CalorieCalculator {
+class NutritionFacts {
+    private int carbohydrates_g;
+    private int protein_g;
+    private int fat_g;
+    private int fiber_g;
+    private List<String> vitamins;
+    private List<String> minerals;
 
-    public static double calculateBMR(double height, double weight, int age, String gender) {
-        gender = gender.toLowerCase();
+    @Override
+    public String toString() {
+        return String.format(
+                "[Carbs: %dg, Protein: %dg, Fat: %dg, Fiber: %dg, Vitamins: %s, Minerals: %s]",
+                carbohydrates_g, protein_g, fat_g, fiber_g, vitamins, minerals);
+    }
+}
 
-        if (gender.equals("male")) {
-            return 66.5 + (13.7 * weight) + (5 * height) - (6.8 * age);
-        } else if (gender.equals("female")) {
-            return 655 + (9.6 * weight) + (1.8 * height) - (4.7 * age);
-        } else {
-            throw new IllegalArgumentException("Invalid gender");
+class Dish {
+    private int id;
+    private String name;
+    private String course;
+    private String diet;
+    private List<String> ingredients;
+    private String flavor_profile;
+    private NutritionFacts nutrition_facts;
+    private String recipe;
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getCourse() {
+        return course;
+    }
+
+    public String getDiet() {
+        return diet;
+    }
+
+    public List<String> getIngredients() {
+        return ingredients;
+    }
+
+    public String getFlavorProfile() {
+        return flavor_profile;
+    }
+
+    public NutritionFacts getNutritionFacts() {
+        return nutrition_facts;
+    }
+
+    public String getRecipe() {
+        return recipe;
+    }
+}
+
+class DisplayDishes {
+    public static List<Dish> loadDishes(String filePath) {
+        try {
+            Gson gson = new Gson();
+            Type dishListType = new TypeToken<List<Dish>>() {
+            }.getType();
+            return gson.fromJson(new FileReader(filePath), dishListType);
+        } catch (Exception e) {
+            System.out.println("❌ Error loading dishes: " + e.getMessage());
+            return null;
         }
     }
+}
 
-    public static double getActivityFactor(String level) {
-        switch (level.toLowerCase()) {
-            case "sedentary": return 1.2;
-            case "light": return 1.375;
-            case "moderate": return 1.55;
-            case "active": return 1.725;
-            case "very_active": return 1.9;
-            default: throw new IllegalArgumentException("Invalid activity level");
+class DishById {
+    public static void printDishById(List<Dish> dishes, int id) {
+        if (dishes == null) {
+            System.out.println("No data loaded!");
+            return;
         }
-    }
 
-    public static double calculateDailyCalories(double bmr, String activityLevel) {
-        return bmr * getActivityFactor(activityLevel);
-    }
+        Dish found = null;
+        for (Dish dish : dishes) {
+            if (dish.getId() == id) {
+                found = dish;
+                break;
+            }
+        }
 
-    public static double calculateFoodAllowance(double dailyCalories, double calPerGram) {
-        return dailyCalories / calPerGram;
+        if (found == null) {
+            System.out.println("No dish found with ID " + id);
+            return;
+        }
+
+        System.out.println("===========================================");
+        System.out.printf("%-25s | ID: %d%n", found.getName(), found.getId());
+        System.out.println("===========================================");
+        System.out.println("Course: " + found.getCourse());
+        System.out.println("Diet: " + found.getDiet());
+        System.out.println("\nIngredients:");
+        for (String ingredient : found.getIngredients()) {
+            System.out.println("  - " + ingredient);
+        }
+
+        System.out.println("\nFlavor Profile: " + found.getFlavorProfile());
+        System.out.println("\nNutrition Facts:");
+        System.out.println("  " + found.getNutritionFacts());
+
+        System.out.println("\nRecipe:");
+        System.out.println("  " + found.getRecipe());
+
+        System.out.println("===========================================");
     }
 }
 
 public class Main {
-
     public static void main(String[] args) {
+        String filePath = "OOPS_DATA.json";
+        List<Dish> dishes = DisplayDishes.loadDishes(filePath);
+
+        // if (args.length == 0) {
+        //     System.out.println("Usage: java Main <dish_id>");
+        //     return;
+        // }
+
         Scanner sc = new Scanner(System.in);
+        System.out.println("-----------------------------\nWhat do you want to do?");
 
-        double height = readDouble(sc, "Enter height (cm): ");
-        double weight = readDouble(sc, "Enter weight (kg): ");
-        int age = (int) readDouble(sc, "Enter age: ");
+        System.out.println("1. Text\n2. Image\n3. Calorie Calculator");
+        int chooser = sc.nextInt();
+        sc.nextLine(); // consume newline
 
-        String gender = readString(sc, "Enter gender (male/female): ");
-        String activity = readString(sc, "Enter activity (sedentary, light, moderate, active, very_active): ");
-
-        double bmr = CalorieCalculator.calculateBMR(height, weight, age, gender);
-        double dailyCalories = CalorieCalculator.calculateDailyCalories(bmr, activity);
-
-        System.out.println("\nYour BMR: " + bmr);
-        System.out.println("Your Daily Calorie Need: " + dailyCalories);
-
-        String food = readString(sc, "Enter food name: ");
-        double calPerGram = readDouble(sc, "Calories per gram of " + food + ": ");
-
-        double gramsAllowed = CalorieCalculator.calculateFoodAllowance(dailyCalories, calPerGram);
-
-        System.out.println("\nYou can eat up to " + gramsAllowed + " grams of " + food);
-
-        sc.close();
-    }
-
-    // ---------- SAFE INPUT METHODS ----------
-    private static double readDouble(Scanner sc, String prompt) {
-        while (true) {
-            System.out.print(prompt);
-            if (sc.hasNextDouble()) {
-                return sc.nextDouble();
-            } else {
-                System.out.println("Invalid number. Try again.");
-                sc.next(); // clear wrong input
-            }
+        try {
+            int id = InputQuery.INPUT("", chooser); // Example usage; replace "" and 1 with actual inputs
+            DishById.printDishById(dishes, id);
+        } catch (NumberFormatException e) {
+            System.out.println("❌ Invalid ID. Please enter a number.");
         }
     }
-
-    private static String readString(Scanner sc, String prompt) {
-        System.out.print(prompt);
-        return sc.next();
-    }
 }
+
+// cd "c:\Users\adity\OneDrive\Desktop\project\" ; if ($?) { javac -cp
+// gson-2.10.1.jar Main.java } ; if ($?) { java -cp ".;gson-2.10.1.jar" Main
+// $DishID }
+// use above command to run -> Change according to directory btw
