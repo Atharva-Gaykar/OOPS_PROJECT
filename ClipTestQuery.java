@@ -5,12 +5,19 @@ import java.nio.charset.StandardCharsets;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+
+// line 75 -> that will be the block sending the main id which has to be mapped
+
 public class ClipTestQuery {
 
-    public static void main(String[] args) {
+    public static String processQuery(InputQuery.Query query_object) {
+        return query_object.getQuery();
+    }
+
+    public static void handleQuery(InputQuery.Query query_object) {
 
         // --- Toy setup ---
-        String query = "pani puri";
+        String query = processQuery(query_object);
         int top_k = 1;
 
         // -------------------------------
@@ -33,56 +40,57 @@ public class ClipTestQuery {
         // 🛰️ Real API mode (commented out — can be re-enabled later)
         // ----------------------------------------------------------
         /*
-        try {
-            String urlString = "http://127.0.0.1:8500/query/text";
-            URI uri = URI.create(urlString);
-            URL url = uri.toURL();
-
-            System.out.println("✅ URL created successfully: " + url);
-
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("POST");
-            conn.setDoOutput(true);
-            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-
-            String data = "query=" + URLEncoder.encode(query, StandardCharsets.UTF_8.toString())
-                        + "&top_k=" + top_k;
-
-            try (OutputStream os = conn.getOutputStream()) {
-                byte[] input = data.getBytes(StandardCharsets.UTF_8);
-                os.write(input, 0, input.length);
-            }
-
-            int status = conn.getResponseCode();
-            InputStream responseStream = (status < HttpURLConnection.HTTP_BAD_REQUEST)
-                    ? conn.getInputStream()
-                    : conn.getErrorStream();
-
-            String response;
-            try (BufferedReader in = new BufferedReader(
-                    new InputStreamReader(responseStream, StandardCharsets.UTF_8))) {
-                response = in.lines().collect(Collectors.joining());
-            }
-
-            System.out.println("\n🌐 Response from API:\n" + response);
-
-            String foodIdApi = extractIdFromJson(response);
-            if (foodIdApi != null) {
-                System.out.println("🎯 Extracted Food ID: " + foodIdApi);
-            } else {
-                System.out.println("⚠️ No valid ID found in API response.");
-            }
-
-            conn.disconnect();
-
-        } catch (IOException e) {
-            System.err.println("⚠️ Network/IO error:");
-            e.printStackTrace();
-        } catch (Exception e) {
-            System.err.println("⚠️ Unexpected error:");
-            e.printStackTrace();
-        }
-        */
+         * try {
+         * String urlString = "http://127.0.0.1:8500/query/text";
+         * URI uri = URI.create(urlString);
+         * URL url = uri.toURL();
+         * 
+         * System.out.println("✅ URL created successfully: " + url);
+         * 
+         * HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+         * conn.setRequestMethod("POST");
+         * conn.setDoOutput(true);
+         * conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+         * 
+         * String data = "query=" + URLEncoder.encode(query,
+         * StandardCharsets.UTF_8.toString())
+         * + "&top_k=" + top_k;
+         * 
+         * try (OutputStream os = conn.getOutputStream()) {
+         * byte[] input = data.getBytes(StandardCharsets.UTF_8);
+         * os.write(input, 0, input.length);
+         * }
+         * 
+         * int status = conn.getResponseCode();
+         * InputStream responseStream = (status < HttpURLConnection.HTTP_BAD_REQUEST)
+         * ? conn.getInputStream()
+         * : conn.getErrorStream();
+         * 
+         * String response;
+         * try (BufferedReader in = new BufferedReader(
+         * new InputStreamReader(responseStream, StandardCharsets.UTF_8))) {
+         * response = in.lines().collect(Collectors.joining());
+         * }
+         * 
+         * System.out.println("\n🌐 Response from API:\n" + response);
+         * 
+         * String foodIdApi = extractIdFromJson(response);
+         * if (foodIdApi != null) {
+         * System.out.println("🎯 Extracted Food ID: " + foodIdApi);
+         * } else {
+         * System.out.println("⚠️ No valid ID found in API response.");
+         * }
+         * 
+         * conn.disconnect();
+         * 
+         * } catch (IOException e) {
+         * System.err.println("⚠️ Network/IO error:");
+         * e.printStackTrace();
+         * } catch (Exception e) {
+         * System.err.println("⚠️ Unexpected error:");
+         * e.printStackTrace();
+         * }
+         */
     }
 
     // -----------------------------------------------
@@ -98,7 +106,8 @@ public class ClipTestQuery {
     // Helper: Extract numeric ID from JSON response
     // -----------------------------------------------
     private static String extractIdFromJson(String json) {
-        if (json == null || !json.contains("\"id\"")) return null;
+        if (json == null || !json.contains("\"id\""))
+            return null;
         try {
             int start = json.indexOf("\"id\"") + 5;
             int end = json.indexOf("}", start);
