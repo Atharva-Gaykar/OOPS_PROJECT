@@ -83,12 +83,9 @@ Users can:
 
 ---
 
-Perfect 👍 — your latest `Main.java` code clearly shows **three distinct functional flows** (Text Query, Image Query, and Calorie Calculator).
-Here’s your **final and accurate Workflow Summary** based on the current implementation 👇
 
----
 
-## ⚙️ **Workflow Summary (Final — Updated According to Code)**
+## ⚙️ **Workflow Summary**
 
 ### **1. User Interaction (Java - Front Layer)**
 
@@ -187,4 +184,5 @@ Here’s your **final and accurate Workflow Summary** based on the current imple
 * **Database Integration**: Replace local JSON with a real DB (MySQL or MongoDB).
 
 ---
+
 
