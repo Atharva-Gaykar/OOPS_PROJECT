@@ -34,7 +34,7 @@ Compute nutritional composition (Calorie count).
 Java communicates with a Python FastAPI server using JSON over HTTP.
 
 ✅ **Fine-tuned CLIP Model:**  
-Optimized for food domain embeddings using curated data from `OOPS_DATA.json`.
+Optimized for food domain embeddings .
 
 
 
