@@ -36,6 +36,10 @@ Java communicates with a Python FastAPI server using JSON over HTTP.
 ✅ **Fine-tuned CLIP Model:**  
 Optimized for food domain embeddings .
 
+SYSTEM ARCHITECTURE
+<img width="1428" height="370" alt="image" src="https://github.com/user-attachments/assets/39c85460-312c-4f27-8b24-23d0c2e17600" />
+
+
 
 
 
