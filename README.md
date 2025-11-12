@@ -22,13 +22,13 @@ This project bridges **Deep Learning (Python)** and **Software Engineering (Java
 ## ⚙️ **Key Features**
 
 ✅ **Text-based Food Query:**  
-Input a textual description (e.g., “spicy paneer curry”) to fetch the closest dish.
+Input a textual description (e.g., “spicy paneer curry”) or recipe based query (e.g.,"How to make samosa?","what is recipe of idli?")  to fetch the closest dish.
 
 ✅ **Image-based Recognition:**  
 Upload or provide a path to a food image — the model predicts its matching dish.
 
 ✅ **Calorie & Nutrition Analyzer:**  
-Compute nutritional composition (carbs, proteins, fats, fiber, vitamins, minerals).
+Compute nutritional composition (Calorie count).
 
 ✅ **Seamless Cross-Language Integration:**  
 Java communicates with a Python FastAPI server using JSON over HTTP.
