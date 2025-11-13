@@ -217,6 +217,7 @@ uvicorn MODEL_API:app --reload --port 8001
 - **Atharva Gaykar** - BT24CSH047
 - **Aditya Singh** - BT24CSH051
 - **Pratham Dwivedi** - BT24CSH063
+- **Hrushikesh Paithankar** -BT24CSH044
 
 ## 🎓 Academic Information
 
@@ -238,3 +239,7 @@ For queries, reach out through GitHub issues or contact any team member.
 ---
 
 **Note**: Ensure both the Python backend and Java frontend are running simultaneously for the application to work properly.
+
+**System Architecture**
+
+<img width="1429" height="370" alt="Screenshot 2025-11-13 012330" src="https://github.com/user-attachments/assets/bc18909c-0106-4899-b3d7-061a76c564ed" />
